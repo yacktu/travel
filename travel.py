@@ -14,7 +14,7 @@ mysql.init_app(app)
 
 @app.route("/")
 def main():
-    return render_template('index.html')
+    return render_template('booktrip.html')
 
 
 @app.route('/signUp', methods=['POST', 'GET'])
