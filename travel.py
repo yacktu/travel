@@ -25,7 +25,8 @@ def signUp():
 
         conn = mysql.get_db()
         cursor = conn.cursor()
-        cursor.callproc('new_procedure', (_flight_carrier,_class,_price))
+        sql = "INSERT INTO `flight`(`flight_carrier`,`class`,`price`) VALUES (%s,%s,%s)"
+        cursor.execute(sql, (_flight_carrier, _class, _price))
         data = cursor.fetchall()
      
         if len(data) is 0:
