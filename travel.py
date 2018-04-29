@@ -17,28 +17,23 @@ def main():
     return render_template('booktrip.html')
 
 
-@app.route('/signUp', methods=['POST', 'GET'])
-def signUp():
+@app.route('/bookTrip', methods=['POST', 'GET'])
+def bookTrip():
     _flight_carrier = request.form['inputName']
     _class = request.form['inputEmail']
     _price = request.form['inputPassword']
 
-    if _flight_carrier and _class and _price:
+    conn = mysql.get_db()
+    cursor = conn.cursor()
+    sql = "INSERT INTO `flight`(`flight_carrier`,`class`,`price`) VALUES (%s,%s,%s)"
+    cursor.execute(sql, (_flight_carrier, _class, _price))
 
-        conn = mysql.get_db()
-        cursor = conn.cursor()
-        cursor.callproc('new_procedure', (_flight_carrier, _class, _price))
-        data = cursor.fetchall()
-
-        if len(data) is 0:
-            conn.commit()
-            return json.dumps({'message': 'Flight created successfully !'})
-        else:
-            return json.dumps({'error': str(data[0])})
-
+    data = cursor.fetchall()
+    if len(data) is 0:
+        conn.commit()
+        return json.dumps({'message': 'Flight created successfully !'})
     else:
-        return json.dumps({'html': '<span>Enter the required fields</span>'})
-
+        return json.dumps({'error': str(data[0])})
 
 if __name__ == "__main__":
     app.run()
