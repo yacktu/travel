@@ -1,9 +1,9 @@
 $(function () {
-    $('#btnSignUp').click(function () {
+    $('#submit').click(function () {
         console.log("Clicked.");
 
         $.ajax({
-            url: '/signUp',
+            url: '/bookTrip',
             data: $('form').serialize(),
             type: 'POST',
             success: function (response) {
