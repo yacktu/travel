@@ -1,15 +1,15 @@
-$(function() {
-    $('#btnSignUp').click(function() {
+$(function () {
+    $('#btnSignUp').click(function () {
         console.log("Clicked.");
- 
+
         $.ajax({
             url: '/signUp',
             data: $('form').serialize(),
             type: 'POST',
-            success: function(response) {
+            success: function (response) {
                 console.log(response);
             },
-            error: function(error) {
+            error: function (error) {
                 console.log(error);
             }
         });
