@@ -17,7 +17,7 @@ mysql.init_app(app)
 
 @app.route("/")
 def main():
-    return render_template('booktrip.html')
+    return render_template('index.html')
 
 @app.route('/goToIndex')
 def showSignUp():
@@ -33,7 +33,6 @@ def bookTrip():
     if verbose:
         verbose_print('Group Name: {}'.format(group_name))
 
-    print(group_name)
     #PASSENGER
     first_name = request.form['firstName']
     last_name = request.form['lastName']
@@ -52,7 +51,6 @@ def bookTrip():
     country = request.form['country']
     state = request.form['state']
     city = request.form['city']
-    print(country)
 
     if verbose:
         verbose_print('Country: {}'.format(country))
