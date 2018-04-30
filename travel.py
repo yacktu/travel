@@ -25,14 +25,19 @@ def showSignUp():
 
 @app.route('/bookTrip', methods=['POST'])
 def bookTrip():
+<<<<<<< HEAD
     if verbose:
         verbose_print('In Book Trip Function')
 
+=======
+    print("In Book Trip SQL")
+>>>>>>> 26fb4df9a8e96b5128667d9b39e01e7b5ebdf011
     #GROUP
     group_name = request.form['groupName']
     if verbose:
         verbose_print('Group Name: {}'.format(group_name))
 
+    print(group_name)
     #PASSENGER
     first_name = request.form['firstName']
     last_name = request.form['lastName']
@@ -40,6 +45,7 @@ def bookTrip():
     age = request.form['age']
     email = request.form['email']
 
+<<<<<<< HEAD
     if verbose:
         verbose_print('First Name: {}'.format(first_name))
         verbose_print('Last Name: {}'.format(last_name))
@@ -47,10 +53,14 @@ def bookTrip():
         verbose_print('Age: {}'.format(age))
         verbose_print('Email: {}'.format(email))
 
+=======
+    print(first_name)
+>>>>>>> 26fb4df9a8e96b5128667d9b39e01e7b5ebdf011
     #SOURCE LOCATION
     country = request.form['country']
     state = request.form['state']
     city = request.form['city']
+    print(country)
 
     if verbose:
         verbose_print('Country: {}'.format(country))
@@ -68,9 +78,14 @@ def bookTrip():
         verbose_print('CC-VV: {}'.format(ccCVV))
 
     conn = mysql.get_db()
+    print(conn)
     cursor = conn.cursor()
+    print(cursor)
     sql = "INSERT INTO `passenger`(`first_name`,`last_name`,`email`, `age`, `phone_number`) VALUES (%s,%s,%s,%s,%s)"
+    print(sql)
     cursor.execute(sql, (first_name, last_name, phone_number, age, email))
+
+    print("Excecuted SQL")
 
     data = cursor.fetchall()
     if len(data) is 0:
