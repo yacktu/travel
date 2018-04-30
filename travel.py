@@ -17,16 +17,32 @@ def main():
     return render_template('booktrip.html')
 
 
-@app.route('/bookTrip', methods=['POST', 'GET'])
+@app.route('/bookTrip', methods=['POST'])
 def bookTrip():
-    _flight_carrier = request.form['inputName']
-    _class = request.form['inputEmail']
-    _price = request.form['inputPassword']
+    #GROUP
+    group_name = request.form['groupName']
+
+    #PASSENGER
+    first_name = request.form['firstName']
+    last_name = request.form['lastName']
+    phone_number = request.form['phoneNumber']
+    age = request.form['age']
+    email = request.form['email']
+
+    #SOURCE LOCATION
+    country = request.form['country']
+    state = request.form['state']
+    city = request.form['city']
+
+    #PAYMENT INFO
+    ccNumber = request.form['cc-number']
+    ccExp = request.form['cc-expiration']
+    ccCVV = request.form['cc-cvv']
 
     conn = mysql.get_db()
     cursor = conn.cursor()
-    sql = "INSERT INTO `flight`(`flight_carrier`,`class`,`price`) VALUES (%s,%s,%s)"
-    cursor.execute(sql, (_flight_carrier, _class, _price))
+    sql = "INSERT INTO `passenger`(`first_name`,`last_name`,`email`, `age`, `phone_number`) VALUES (%s,%s,%s,%s,%s)"
+    cursor.execute(sql, (first_name, last_name, phone_number, age, email))
 
     data = cursor.fetchall()
     if len(data) is 0:
