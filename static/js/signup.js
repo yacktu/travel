@@ -1,5 +1,5 @@
 $(function () {
-    $('#submit').click(function () {
+    $('#submit-trip').click(function () {
         console.log("Clicked.");
 
         $.ajax({

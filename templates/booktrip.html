@@ -81,8 +81,8 @@
                 <h4 class="mb-3">Main Guest</h4>
                 <form class="needs-validation" novalidate>
                     <div class="mb-3">
-                        <label for="address">Group Name</label>
-                        <input type="text" class="form-control" id="groupName" placeholder="Insert Name Here" required>
+                        <label>Group Name</label>
+                        <input type="text" class="form-control" name="groupName"id="groupName" placeholder="Insert Name Here" required>
                         <div class="invalid-feedback">
                             Please enter a group name.
                         </div>
@@ -90,15 +90,15 @@
 
                     <div class="row">
                         <div class="col-md-6 mb-3">
-                            <label for="firstName">First name</label>
-                            <input type="text" class="form-control" id="firstName" placeholder="" value="" required>
+                            <label>First name</label>
+                            <input type="text" class="form-control" name="firstName"id="firstName" placeholder="" value="" required>
                             <div class="invalid-feedback">
                                 Valid first name is required.
                             </div>
                         </div>
                         <div class="col-md-6 mb-3">
-                            <label for="lastName">Last name</label>
-                            <input type="text" class="form-control" id="lastName" placeholder="" value="" required>
+                            <label>Last name</label>
+                            <input type="text" class="form-control" name="lastName"id="lastName" placeholder="" value="" required>
                             <div class="invalid-feedback">
                                 Valid last name is required.
                             </div>
@@ -107,12 +107,12 @@
 
                     <div class="row">
                         <div class="col-md-5 mb-3">
-                            <label for="username">Username</label>
+                            <label>Username</label>
                             <div class="input-group">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text">@</span>
                                 </div>
-                                <input type="text" class="form-control" id="username" placeholder="Username" required>
+                                <input type="text" class="form-control"name="username" id="username" placeholder="Username" required>
                                 <div class="invalid-feedback">
                                     Your username is required.
                                 </div>
@@ -120,15 +120,15 @@
                         </div>
 
                         <div class="col-md-4 mb-3">
-                            <label for="zip">Phone Number</label>
-                            <input type="text" class="form-control" id="phoneNumber" placeholder="" required>
+                            <label>Phone Number</label>
+                            <input type="text" class="form-control" name="phoneNumber"id="phoneNumber" placeholder="" required>
                             <div class="invalid-feedback">
                                 Phone Number Required.
                             </div>
                         </div>
                         <div class="col-md-3 mb-3">
-                            <label for="zip">Age</label>
-                            <input type="text" class="form-control" id="age" placeholder="" required>
+                            <label >Age</label>
+                            <input type="text" class="form-control" name="age"id="age" placeholder="" required>
                             <div class="invalid-feedback">
                                 Age Required.
                             </div>
@@ -136,10 +136,10 @@
                     </div>
 
                     <div class="mb-3">
-                        <label for="email">Email
+                        <label>Email
                             <span class="text-muted">(Optional)</span>
                         </label>
-                        <input type="email" class="form-control" id="email" placeholder="you@example.com">
+                        <input type="email" class="form-control" name="email"id="email" placeholder="you@example.com">
                         <div class="invalid-feedback">
                             Please enter a valid email address for shipping updates.
                         </div>
@@ -147,8 +147,8 @@
 
                     <div class="row">
                         <div class="col-md-5 mb-3">
-                            <label for="country">Country</label>
-                            <select class="custom-select d-block w-100" id="country" required>
+                            <label >Country</label>
+                            <select class="custom-select d-block w-100" name="country"id="country" required>
                                 <option value="">Choose...</option>
                                 <option>United States</option>
                             </select>
@@ -157,12 +157,12 @@
                             </div>
                         </div>
                         <div class="col-md-4 mb-3">
-                            <label for="zip">State</label>
-                            <input type="text" class="form-control" id="state" placeholder="" required>
+                            <label >State</label>
+                            <input type="text" class="form-control"name="state" id="state" placeholder="" required>
                         </div>
                         <div class="col-md-3 mb-3">
-                            <label for="zip">City</label>
-                            <input type="text" class="form-control" id="city" placeholder="" required>
+                            <label >City</label>
+                            <input type="text" class="form-control" name="city"id="city" placeholder="" required>
                             <div class="invalid-feedback">
                                 City required.
                             </div>
@@ -176,29 +176,29 @@
                     <div class="d-block my-3">
                         <div class="custom-control custom-radio">
                             <input id="credit" name="paymentMethod" type="radio" class="custom-control-input" checked required>
-                            <label class="custom-control-label" for="credit">Credit card</label>
+                            <label class="custom-control-label" >Credit card</label>
                         </div>
                         <div class="custom-control custom-radio">
                             <input id="debit" name="paymentMethod" type="radio" class="custom-control-input" required>
-                            <label class="custom-control-label" for="debit">Debit card</label>
+                            <label class="custom-control-label" >Debit card</label>
                         </div>
                         <div class="custom-control custom-radio">
                             <input id="paypal" name="paymentMethod" type="radio" class="custom-control-input" required>
-                            <label class="custom-control-label" for="paypal">PayPal</label>
+                            <label class="custom-control-label" >PayPal</label>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-6 mb-3">
-                            <label for="cc-name">Name on card</label>
-                            <input type="text" class="form-control" id="cc-name" placeholder="" required>
+                            <label >Name on card</label>
+                            <input type="text" class="form-control" name="cc-name"id="cc-name" placeholder="" required>
                             <small class="text-muted">Full name as displayed on card</small>
                             <div class="invalid-feedback">
                                 Name on card is required
                             </div>
                         </div>
                         <div class="col-md-6 mb-3">
-                            <label for="cc-number">Credit card number</label>
-                            <input type="text" class="form-control" id="cc-number" placeholder="" required>
+                            <label >Credit card number</label>
+                            <input type="text" class="form-control" name="cc-number"id="cc-number" placeholder="" required>
                             <div class="invalid-feedback">
                                 Credit card number is required
                             </div>
@@ -206,22 +206,22 @@
                     </div>
                     <div class="row">
                         <div class="col-md-3 mb-3">
-                            <label for="cc-expiration">Expiration</label>
-                            <input type="text" class="form-control" id="cc-expiration" placeholder="" required>
+                            <label >Expiration</label>
+                            <input type="text" class="form-control" name="cc-expiration"id="cc-expiration" placeholder="" required>
                             <div class="invalid-feedback">
                                 Expiration date required
                             </div>
                         </div>
                         <div class="col-md-3 mb-3">
-                            <label for="cc-cvv">CVV</label>
-                            <input type="text" class="form-control" id="cc-cvv" placeholder="" required>
+                            <label >CVV</label>
+                            <input type="text" class="form-control" name="cc-cvv"id="cc-cvv" placeholder="" required>
                             <div class="invalid-feedback">
                                 Security code required
                             </div>
                         </div>
                     </div>
                     <hr class="mb-4">
-                    <button id="submit" class="btn btn-primary btn-lg btn-block" type="submit">Book Trip!</button>
+                    <button id="submit-trip" class="btn btn-primary btn-lg btn-block" type="button" href="/goToIndex">Book Trip!</button>
                 </form>
             </div>
         </div>
@@ -243,8 +243,9 @@
     </div>
 
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-        crossorigin="anonymous"></script>
+    <!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script> -->
+    <script src="../static/js/jquery-3.3.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ"
         crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm"
@@ -261,7 +262,7 @@
 
                 // Loop over them and prevent submission
                 var validation = Array.prototype.filter.call(forms, function (form) {
-                    form.addEventListener('submit', function (event) {
+                    form.addEventListener('button', function (event) {
                         if (form.checkValidity() === false) {
                             event.preventDefault();
                             event.stopPropagation();
