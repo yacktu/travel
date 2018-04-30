@@ -4,8 +4,6 @@ from my_utils import verbose_print, error_print
 app = Flask(__name__)
 mysql = MySQL()
 
-verbose = True
-
 # configs
 app.config['MYSQL_DATABASE_USER'] = 'jack'
 app.config['MYSQL_DATABASE_PASSWORD'] = 'jacksquared'
@@ -17,7 +15,7 @@ mysql.init_app(app)
 
 @app.route("/")
 def main():
-    return render_template('index.html')
+    return render_template('booktrip.html')
 
 @app.route('/goToIndex')
 def showSignUp():
@@ -25,13 +23,8 @@ def showSignUp():
 
 @app.route('/bookTrip', methods=['POST'])
 def bookTrip():
-    if verbose:
-        verbose_print('In Book Trip Function')
-
     #GROUP
     group_name = request.form['groupName']
-    if verbose:
-        verbose_print('Group Name: {}'.format(group_name))
 
     #PASSENGER
     first_name = request.form['firstName']
@@ -40,49 +33,44 @@ def bookTrip():
     age = request.form['age']
     email = request.form['email']
 
-    if verbose:
-        verbose_print('First Name: {}'.format(first_name))
-        verbose_print('Last Name: {}'.format(last_name))
-        verbose_print('Phone Number: {}'.format(phone_number))
-        verbose_print('Age: {}'.format(age))
-        verbose_print('Email: {}'.format(email))
-
     #SOURCE LOCATION
     country = request.form['country']
     state = request.form['state']
     city = request.form['city']
-
-    if verbose:
-        verbose_print('Country: {}'.format(country))
-        verbose_print('State: {}'.format(state))
-        verbose_print('City: {}'.format(city))
 
     #PAYMENT INFO
     ccNumber = request.form['cc-number']
     ccExp = request.form['cc-expiration']
     ccCVV = request.form['cc-cvv']
 
-    if verbose:
-        verbose_print('CC-Num: {}'.format(ccNumber))
-        verbose_print('CC-Exp: {}'.format(ccExp))
-        verbose_print('CC-VV: {}'.format(ccCVV))
-
     conn = mysql.get_db()
-    print(conn)
     cursor = conn.cursor()
-    print(cursor)
-    sql = "INSERT INTO `passenger`(`first_name`,`last_name`,`email`, `age`, `phone_number`) VALUES (%s,%s,%s,%s,%s)"
-    print(sql)
-    cursor.execute(sql, (first_name, last_name, phone_number, age, email))
+    sql_fetchid = "SELECT LAST_INSERT_ID();"
+    
+    sql = "INSERT INTO `location`(`state`, `country`, `city_name`) VALUES (%s,%s,%s)"
+    cursor.execute(sql, (state, country, city))
+    cursor.execute(sql_fetchid);
+    data = cursor.fetchone()
+    sourceloc_id = data[0]
+    
+    sql = "INSERT INTO `group`(`group_size`, `travel_agent_id`, `source_location`) VALUES (%s,%s,%s)"
+    cursor.execute(sql, (1, 1, sourceloc_id))
+    cursor.execute(sql_fetchid)
+    data = cursor.fetchone()
+    group_id = data[0]
+    
+    sql = "INSERT INTO `payment`(`card_expr_date`, `card_num`, `payment_type`) VALUES (%s,%s,%s)"
+    cursor.execute(sql, (ccExp, ccNumber, "Credit"))
+    cursor.execute(sql_fetchid);
+    data = cursor.fetchone()
+    payment_id = data[0]
+    
+    sql = '''INSERT INTO `passenger`(`first_name`,`last_name`,`email`, `age`,
+    `phone_number`, `payment_id`, `group_id`) VALUES (%s,%s,%s,%s,%s,%s,%s)'''
+    cursor.execute(sql, (first_name, last_name, phone_number, age, email, payment_id, group_id))
 
-    print("Excecuted SQL")
-
-    data = cursor.fetchall()
-    if len(data) is 0:
-        conn.commit()
-        return json.dumps({'message': 'Flight created successfully !'})
-    else:
-        return json.dumps({'error': str(data[0])})
+    conn.commit()
+    return json.dumps({'message': 'Tables updated successfully !'})
 
 if __name__ == "__main__":
     app.run()
