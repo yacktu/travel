@@ -1,4 +1,4 @@
-from flask import Flask, render_template, json, request
+from flask import Flask, render_template, json, request,redirect,url_for
 from flaskext.mysql import MySQL
 from my_utils import verbose_print, error_print
 app = Flask(__name__)
@@ -15,7 +15,7 @@ mysql.init_app(app)
 
 @app.route("/")
 @app.route("/index")
-def main():
+def index():
     return render_template('index.html')
 
 @app.route('/showTripForm', methods=['GET','POST'])
@@ -68,10 +68,15 @@ def bookTrip():
     
     sql = '''INSERT INTO `passenger`(`first_name`,`last_name`,`email`, `age`,
     `phone_number`, `payment_id`, `group_id`) VALUES (%s,%s,%s,%s,%s,%s,%s)'''
-    cursor.execute(sql, (first_name, last_name, phone_number, age, email, payment_id, group_id))
+    try:
+        ret = cursor.execute(sql, (first_name, last_name, phone_number, age, email, payment_id, group_id))
+    except Exception:
+        print("problem")
+        render_template('booktrip.html')
+
 
     conn.commit()
-    return json.dumps({'message': 'Tables updated successfully !'})
+    return redirect(url_for('index'))
 
 if __name__ == "__main__":
     app.run(debug = True)
