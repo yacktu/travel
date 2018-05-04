@@ -24,7 +24,9 @@
         <div class="py-5 text-center">
             <img class="d-block mx-auto mb-4" src="https://getbootstrap.com/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
             <h2>Book Your Trip To:</h2>
-            <p>*Insert Trip Here*</p>
+            <p>{% if location %}
+                    {{location}}
+                  {% endif %}</p>
         </div>
 
         <div class="row">
@@ -222,7 +224,7 @@
                         </div>
                     </div>
                     <hr class="mb-4">
-                    <button id="submit-trip" class="btn btn-primary btn-lg btn-block" type="button" href="/goToIndex">Book Trip!</button>
+                    <button id="submit-trip" class="btn btn-primary btn-lg btn-block" type="button">Book Trip!</button>
                 </form>
             </div>
         </div>

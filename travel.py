@@ -14,12 +14,13 @@ mysql.init_app(app)
 
 
 @app.route("/")
+@app.route("/index")
 def main():
-    return render_template('booktrip.html')
-
-@app.route('/goToIndex')
-def showSignUp():
     return render_template('index.html')
+
+@app.route('/showTripForm', methods=['GET','POST'])
+def showTripForm():
+    return render_template('booktrip.html',location = request.form['location'])
 
 @app.route('/bookTrip', methods=['POST'])
 def bookTrip():
@@ -73,4 +74,4 @@ def bookTrip():
     return json.dumps({'message': 'Tables updated successfully !'})
 
 if __name__ == "__main__":
-    app.run()
+    app.run(debug = True)
