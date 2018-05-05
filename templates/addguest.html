@@ -23,21 +23,16 @@
     <div class="container">
         <div class="py-5 text-center">
             <img class="d-block mx-auto mb-4" src="https://getbootstrap.com/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
-            <h2>Book Your Trip To:</h2>
-            <p>{% if location %}
-                    {{location}}
+            <h2>Adding Guest to Group:</h2>
+            <p>{% if group_name %}
+                    {{group_name}}
                   {% endif %}</p>
         </div>
 
         <div class="row">
             <div class="container">
-                <h4 class="mb-3">Main Guest</h4>
-                <form class="needs-validation" action="{{ url_for('bookTrip') }}" method="POST">
-                    <div class="mb-3">
-                        <label>Group Name</label>
-                        <input type="text" class="form-control" name="groupName"id="groupName" placeholder="Insert Name Here" required>
-                    </div>
-
+                <h4 class="mb-3">Sub Guest</h4>
+                <form class="needs-validation" action="{{ url_for('addGuest') }}" method="POST">
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label>First name</label>
@@ -82,63 +77,8 @@
                         <input type="email" class="form-control" name="email"id="email" placeholder="you@example.com">
                     </div>
 
-                    <div class="row">
-                        <div class="col-md-5 mb-3">
-                            <label >Country</label>
-                            <select class="custom-select d-block w-100" name="country"id="country" required>
-                                <option value="">Choose...</option>
-                                <option>United States</option>
-                            </select>
-                        </div>
-                        <div class="col-md-4 mb-3">
-                            <label >State</label>
-                            <input type="text" class="form-control"name="state" id="state" placeholder="" required>
-                        </div>
-                        <div class="col-md-3 mb-3">
-                            <label >City</label>
-                            <input type="text" class="form-control" name="city"id="city" placeholder="" required>
-                        </div>
-                    </div>
-
-                    <h4 class="mb-3">Payment</h4>
-
-                    <div class="d-block my-3">
-                        <div class="custom-control custom-radio">
-                            <input id="credit" name="paymentMethod" type="radio" class="custom-control-input" checked required>
-                            <label class="custom-control-label" for="credit">Credit card</label>
-                        </div>
-                        <div class="custom-control custom-radio">
-                            <input id="debit" name="paymentMethod" type="radio" class="custom-control-input" required>
-                            <label class="custom-control-label"for = "debit" >Debit card</label>
-                        </div>
-                        <div class="custom-control custom-radio">
-                            <input id="paypal" name="paymentMethod" type="radio" class="custom-control-input" required>
-                            <label class="custom-control-label" for="paypal">PayPal</label>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label >Name on card</label>
-                            <input type="text" class="form-control" name="cc-name"id="cc-name" placeholder="" required>
-                            <small class="text-muted">Full name as displayed on card</small>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <label >Credit card number</label>
-                            <input type="text" class="form-control" name="cc-number"id="cc-number" placeholder="" required>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-3 mb-3">
-                            <label >Expiration</label>
-                            <input type="text" class="form-control" name="cc-expiration"id="cc-expiration" placeholder="" required>
-                        </div>
-                        <div class="col-md-3 mb-3">
-                            <label >CVV</label>
-                            <input type="text" class="form-control" name="cc-cvv"id="cc-cvv" placeholder="" required>
-                        </div>
-                    </div>
                     <div class="checkbox">
-                            <label><input type="checkbox" name="another-guest" value="True"> Add another guest to your group</label>
+                            <label><input type="checkbox" name="another-guest" value=""> Add another guest to your group</label>
                           </div>
                     <hr class="mb-4">
                     <button class="btn btn-primary btn-lg btn-block" type="submit">Add Guest or Book Transport!</button>

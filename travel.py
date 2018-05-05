@@ -1,4 +1,4 @@
-from flask import Flask, render_template, json, request,redirect,url_for
+from flask import Flask, render_template, json, request,redirect,url_for,session
 from flaskext.mysql import MySQL
 from my_utils import verbose_print, error_print
 app = Flask(__name__)
@@ -10,6 +10,7 @@ app.config['MYSQL_DATABASE_PASSWORD'] = 'jacksquared'
 app.config['MYSQL_DATABASE_DB'] = 'travel_agency'
 app.config['MYSQL_DATABASE_HOST'] = 'travelagency.cgydjwsxgwz6.us-east-2.rds.amazonaws.com'
 app.config['MYSQL_DATABASE_PORT'] = 3306
+app.secret_key = "super secret key"
 mysql.init_app(app)
 
 
@@ -18,14 +19,19 @@ mysql.init_app(app)
 def index():
     return render_template('index.html')
 
-@app.route('/showTripForm', methods=['GET','POST'])
+@app.route('/showTripForm', methods=['POST'])
 def showTripForm():
+    session['location'] = request.form['location']
     return render_template('booktrip.html',location = request.form['location'])
 
 @app.route('/bookTrip', methods=['POST'])
 def bookTrip():
+    # Use this to get the dest location
+    print(session.get('location', None))
+
     #GROUP
     group_name = request.form['groupName']
+    session['group_name'] = group_name
 
     #PASSENGER
     first_name = request.form['firstName']
@@ -68,14 +74,33 @@ def bookTrip():
     
     sql = '''INSERT INTO `passenger`(`first_name`,`last_name`,`email`, `age`,
     `phone_number`, `payment_id`, `group_id`) VALUES (%s,%s,%s,%s,%s,%s,%s)'''
-    try:
-        ret = cursor.execute(sql, (first_name, last_name, phone_number, age, email, payment_id, group_id))
-    except Exception:
-        print("problem")
-        render_template('booktrip.html')
-
 
     conn.commit()
+    if request.form.get('another-guest'):
+        return redirect(url_for('addGuestForm'))
+    else:
+        return redirect(url_for('showTransportForm'))
+
+@app.route('/addGuestForm')
+def addGuestForm():
+    return render_template('addguest.html', group_name = session.get('group_name', None))
+
+@app.route('/addGuest', methods=['GET','POST'])
+def addGuest():
+    # Add guest info here using same method as bookTrip
+    if request.form.get('another-guest'):
+        return redirect(url_for('addGuestForm'))
+    else:
+        return redirect(url_for('showTransportForm'))
+
+@app.route('/showTransportForm')
+def showTransportForm():
+    return render_template('choosetransport.html', group_name = session.get('group_name', None))
+
+@app.route('/chooseTransport', methods=['POST'])
+def chooseTransport():
+    print('Booked')
+    # use reqeust.form.get('name_of_button_input') to get if checked. Use this to popualte database
     return redirect(url_for('index'))
 
 if __name__ == "__main__":
