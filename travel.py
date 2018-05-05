@@ -13,7 +13,6 @@ app.config['MYSQL_DATABASE_PORT'] = 3306
 app.secret_key = "super secret key"
 mysql.init_app(app)
 
-
 @app.route("/")
 @app.route("/index")
 def index():
@@ -22,7 +21,7 @@ def index():
 @app.route('/showTripForm', methods=['POST'])
 def showTripForm():
     session['location'] = request.form['location']
-    return render_template('booktrip.html',location = request.form['location'])
+    return render_template('booktrip.html', location = request.form['location'])
 
 @app.route('/bookTrip', methods=['POST'])
 def bookTrip():
@@ -52,16 +51,24 @@ def bookTrip():
 
     conn = mysql.get_db()
     cursor = conn.cursor()
-    sql_fetchid = "SELECT LAST_INSERT_ID();"
-    
-    sql = "INSERT INTO `location`(`state`, `country`, `city_name`) VALUES (%s,%s,%s)"
+
+    #check if given source location already exists before inserting
+    sql = "SELECT `location_id` FROM `location` WHERE `state` = %s AND `country` = %s AND `city_name` = %s"
     cursor.execute(sql, (state, country, city))
-    cursor.execute(sql_fetchid);
     data = cursor.fetchone()
-    sourceloc_id = data[0]
+
+    if data[0] == None:
+        sql_fetchid = "SELECT LAST_INSERT_ID();"
+        sql = "INSERT INTO `location`(`state`, `country`, `city_name`) VALUES (%s,%s,%s)"
+        cursor.execute(sql, (state, country, city))
+        cursor.execute(sql_fetchid);
+        data = cursor.fetchone()
+        sourceloc_id = data[0]
+    else:
+        sourceloc_id = data[0]
     
     sql = "INSERT INTO `group`(`group_size`, `travel_agent_id`, `source_location`) VALUES (%s,%s,%s)"
-    cursor.execute(sql, (1, 1, sourceloc_id))
+    cursor.execute(sql, (0, 1, sourceloc_id))
     cursor.execute(sql_fetchid)
     data = cursor.fetchone()
     group_id = data[0]
@@ -74,8 +81,12 @@ def bookTrip():
     
     sql = '''INSERT INTO `passenger`(`first_name`,`last_name`,`email`, `age`,
     `phone_number`, `payment_id`, `group_id`) VALUES (%s,%s,%s,%s,%s,%s,%s)'''
-
+    cursor.execute(sql, (first_name, last_name, phone_number, age, email, payment_id, group_id))
     conn.commit()
+
+    session['payment_id'] = payment_id
+    session['group_id'] = group_id
+    
     if request.form.get('another-guest'):
         return redirect(url_for('addGuestForm'))
     else:
@@ -87,7 +98,22 @@ def addGuestForm():
 
 @app.route('/addGuest', methods=['GET','POST'])
 def addGuest():
-    # Add guest info here using same method as bookTrip
+
+    #PASSENGER
+    first_name = request.form['firstName']
+    last_name = request.form['lastName']
+    phone_number = request.form['phoneNumber']
+    age = request.form['age']
+    email = request.form['email']
+    
+    conn = mysql.get_db()
+    cursor = conn.cursor()
+    sql = '''INSERT INTO `passenger`(`first_name`,`last_name`,`email`, `age`,
+    `phone_number`, `payment_id`, `group_id`) VALUES (%s,%s,%s,%s,%s,%s,%s)'''
+    cursor.execute(sql, (first_name, last_name, phone_number, age, email,
+    session.get('payment_id', None), session.get('group_id', None)))
+
+    conn.commit()
     if request.form.get('another-guest'):
         return redirect(url_for('addGuestForm'))
     else:
