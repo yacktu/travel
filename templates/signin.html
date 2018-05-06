@@ -1,7 +1,7 @@
-
 <!doctype html>
 <html lang="en">
-  <head>
+
+<head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
@@ -19,29 +19,45 @@
 
     <!-- Custom styles for this template -->
     <link href="../static/css/signin.css" rel="stylesheet">
-  </head>
+</head>
 
-  <body class="text-center">
-    <form class="form-signin" action="{{ url_for('login') }}" method="POST">
-      <i class="fa fa-plane" style="font-size: 64px"></i>
-      {% if failed %}  
-      <h4 class="mb-3 font-weight-normal">Invalid Email or Password</h4>
-      <h5 class="mb-3 font-weight-normal"> Please try again</h5class></h5>
-      {% else %} 
-      <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-      {% endif %}
-      <label for="inputEmail" class="sr-only">Email</label>
-      <input type="email" name="inputEmail" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
-      <label for="inputPassword" class="sr-only">Password</label>
-      <input type="password"  name="inputPassword" id="inputPassword" class="form-control" placeholder="Password" required>
-      <button class="btn btn-lg btn-primary btn-block" type="submit">View Trip</button>
-      <p class="mt-5 mb-3 text-muted">&copy; Spring-CSE305-2018</p>
-    </form>
+<body>
+    <header>
+        <div class="navbar navbar-dark bg-dark box-shadow">
+            <div class="container d-flex justify-content-between">
+                <i class="fa fa-plane" style="font-size: 24px;color: white"></i>
+                <form action="{{ url_for('index') }}" method="POST">
+                    <button type="submit" class="btn btn-outline-light">
+                        Home
+                    </button>
+                </form>
+            </div>
+        </div>
+    </header>
 
+    <a class="text-center">
+        <form class="form-signin" action="{{ url_for('login') }}" method="POST">
+            <i class="fa fa-plane" style="font-size: 64px"></i>
+            {% if failed %}
+            <h4 class="mb-3 font-weight-normal">Invalid Email or Password</h4>
+            <h5 class="mb-3 font-weight-normal"> Please try again</h5class>
+            </h5>
+            {% else %}
+            <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+            {% endif %}
+            <label for="inputEmail" class="sr-only">Email</label>
+            <input type="email" name="inputEmail" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+            <label for="inputPassword" class="sr-only">Password</label>
+            <input type="password" name="inputPassword" id="inputPassword" class="form-control" placeholder="Password" required>
+            <button class="btn btn-lg btn-primary btn-block" type="submit">View Trip</button>
+            <p class="mt-5 mb-3 text-muted">&copy; Spring-CSE305-2018</p>
+        </form>
+    </a>
     <script src="../static/js/jquery-3.3.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ"
         crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm"
         crossorigin="anonymous"></script>
-  </body>
+</body>
+
 </html>

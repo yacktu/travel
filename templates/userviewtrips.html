@@ -20,54 +20,65 @@
 </head>
 
 <body class="bg-light">
+    <header>
+        <div class="navbar navbar-dark bg-dark box-shadow">
+            <div class="container d-flex justify-content-between">
+                <i class="fa fa-plane" style="font-size: 24px;color: white"></i>
+                <form action="{{ url_for('index') }}" method="POST">
+                    <button type="submit" class="btn btn-outline-light">
+                        Home
+                    </button>
+                </form>
+            </div>
+        </div>
+    </header>
+
     <div class="container">
         <div class="py-5 text-center">
             <img class="d-block mx-auto mb-4" src="https://getbootstrap.com/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
             <i class="fa fa-plane" style="font-size: 64px"></i>
-            <h2>Choosing Transport for Group</h2>
-            <p>{% if group_name %} {{group_name}} {% endif %}</p>
+            <h2>Welcome {% if user_name %} {{user_name}} {% endif %} </h2>
+            <h3>{% if group_name %} {{group_name}} {% endif %}'s Trip to {% if location %} {{location}} {% endif %}</h3>
         </div>
 
-        <div class="row">
-            <div class="container">
-                <form class="needs-validation" action="{{ url_for('chooseTransport') }}" method="POST">
-                    <h3>What transport will you need? (None means you're walking...)</h3>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" name="flight-check">
-                        <label class="form-check-label">
-                            Flight
-                        </label>
-                    </div>
-
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" name="cruise-check">
-                        <label class="form-check-label">
-                            Cruise
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" name="car-check">
-                        <label class="form-check-label">
-                            Car Rental
-                        </label>
-                    </div>
-                    <h4 class="mb-3">Class Selection</h4>
-
-                    <div class="d-block my-3">
-                        <div class="custom-control custom-radio">
-                            <input id="first-class" name="class" type="radio" class="custom-control-input" checked required>
-                            <label class="custom-control-label" for="first-class">First Class</label>
-                        </div>
-                        <div class="custom-control custom-radio">
-                            <input id="second-class" name="class" type="radio" class="custom-control-input" required>
-                            <label class="custom-control-label" for="second-class">Second Class</label>
-                        </div>
-                    </div>
-                    <hr class="mb-4">
-                    <button class="btn btn-primary btn-lg btn-block" type="submit">Book Trip!</button>
-                </form>
-            </div>
-        </div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">User</th>
+                    <th scope="col">First</th>
+                    <th scope="col">Last</th>
+                    <th scope="col">Age</th>
+                    <th scope="col">Phone No.</th>
+                    <th scope="col">Email</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th scope="row">jack</th>
+                    <td>jack</td>
+                    <td>smith</td>
+                    <td>29</td>
+                    <td>123-456-7890</td>
+                    <td>None</td>
+                </tr>
+                <tr>
+                    <th scope="row">jack</th>
+                    <td>jack</td>
+                    <td>smith</td>
+                    <td>29</td>
+                    <td>123-456-7890</td>
+                    <td>js@js.com</td>
+                </tr>
+                <tr>
+                    <th scope="row">jack</th>
+                    <td>jack</td>
+                    <td>smith</td>
+                    <td>29</td>
+                    <td>123-456-7890</td>
+                    <td>None</td>
+                </tr>
+            </tbody>
+        </table>
 
         <footer class="my-5 pt-5 text-muted text-center text-small">
             <p class="mb-1">&copy; 2017-2018 Company Name</p>

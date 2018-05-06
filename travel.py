@@ -16,7 +16,7 @@ app.secret_key = "super secret key"
 mysql.init_app(app)
 
 @app.route("/")
-@app.route("/index")
+@app.route("/index", methods=['GET','POST'])
 def index():
     conn = mysql.get_db()
     cursor = conn.cursor()
@@ -37,13 +37,25 @@ def showTripForm():
     session['location'] = request.form['location']
     return render_template('booktrip.html', location = request.form['location'])
 
-@app.route('/showLogin', methods=['POST'])
+@app.route('/showLogin', methods=['GET','POST'])
 def showLogin():
     return render_template('signin.html')
 
 @app.route('/login', methods=['POST'])
 def login():
-    return render_template('signin.html', failed=True)
+    # if failed to login successfully:
+    if False:
+        return render_template('signin.html', failed=True)
+    # otherwise if admin render admin page
+    # return redirect(url_for('showAdminPage'))
+    # otherwise render regular page
+    else:
+        return redirect(url_for('showTripsPage'))
+    # return redirect(url_for('showTripsPage'))
+
+@app.route('/showTripsPage')
+def showTripsPage():
+    return render_template('userviewtrips.html')
 
 @app.route('/bookTrip', methods=['POST'])
 def bookTrip():
