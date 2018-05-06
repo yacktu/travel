@@ -28,7 +28,7 @@ def index():
         data = cursor.fetchone()
         num_visits.append(data[0])
         
-    return render_template('index.html')
+    return render_template('index.html', v_hawaii = num_visits[0], v_russia = num_visits[1], v_australia = num_visits[2], v_france = num_visits[3], v_greenland = num_visits[4], v_japan = num_visits[5])
 
 @app.route('/showTripForm', methods=['POST'])
 def showTripForm():
