@@ -4,6 +4,8 @@ from my_utils import verbose_print, error_print
 app = Flask(__name__)
 mysql = MySQL()
 
+#jinja2 for html dynamic changing
+
 # configs
 app.config['MYSQL_DATABASE_USER'] = 'jack'
 app.config['MYSQL_DATABASE_PASSWORD'] = 'jacksquared'
@@ -34,6 +36,14 @@ def index():
 def showTripForm():
     session['location'] = request.form['location']
     return render_template('booktrip.html', location = request.form['location'])
+
+@app.route('/showLogin', methods=['POST'])
+def showLogin():
+    return render_template('signin.html')
+
+@app.route('/login', methods=['POST'])
+def login():
+    return render_template('signin.html', failed=True)
 
 @app.route('/bookTrip', methods=['POST'])
 def bookTrip():
