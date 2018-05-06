@@ -16,6 +16,18 @@ mysql.init_app(app)
 @app.route("/")
 @app.route("/index")
 def index():
+    conn = mysql.get_db()
+    cursor = conn.cursor()
+
+    num_visits = []
+    locations = ["Hawaii", "Russia", "Australia", "France", "Greenland", "Japan"]
+    
+    for loc in locations:
+        sql = "SELECT `num_visits` FROM `location` WHERE `country` = %s"
+        cursor.execute(sql, loc)
+        data = cursor.fetchone()
+        num_visits.append(data[0])
+        
     return render_template('index.html')
 
 @app.route('/showTripForm', methods=['POST'])
@@ -26,7 +38,8 @@ def showTripForm():
 @app.route('/bookTrip', methods=['POST'])
 def bookTrip():
     # Use this to get the dest location
-    print(session.get('location', None))
+    dest_location_str = session.get('location', None)
+    print(dest_location_str)
 
     #GROUP
     group_name = request.form['groupName']
@@ -51,6 +64,7 @@ def bookTrip():
 
     conn = mysql.get_db()
     cursor = conn.cursor()
+    sql_fetchid = "SELECT LAST_INSERT_ID();"
 
     #check if given source location already exists before inserting
     sql = "SELECT `location_id` FROM `location` WHERE `state` = %s AND `country` = %s AND `city_name` = %s"
@@ -58,7 +72,6 @@ def bookTrip():
     data = cursor.fetchone()
 
     if data[0] == None:
-        sql_fetchid = "SELECT LAST_INSERT_ID();"
         sql = "INSERT INTO `location`(`state`, `country`, `city_name`) VALUES (%s,%s,%s)"
         cursor.execute(sql, (state, country, city))
         cursor.execute(sql_fetchid);
@@ -66,9 +79,14 @@ def bookTrip():
         sourceloc_id = data[0]
     else:
         sourceloc_id = data[0]
+
+    sql = "SELECT `location_id` FROM `location` WHERE `country` = %s"
+    cursor.execute(sql, dest_location_str)
+    data = cursor.fetchone()
+    destloc_id = data[0]
     
-    sql = "INSERT INTO `group`(`group_size`, `travel_agent_id`, `source_location`) VALUES (%s,%s,%s)"
-    cursor.execute(sql, (0, 1, sourceloc_id))
+    sql = "INSERT INTO `group`(`group_size`, `travel_agent_id`, `source_location`, `dest_location`) VALUES (%s,%s,%s,%s)"
+    cursor.execute(sql, (0, 1, sourceloc_id, destloc_id))
     cursor.execute(sql_fetchid)
     data = cursor.fetchone()
     group_id = data[0]
