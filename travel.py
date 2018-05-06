@@ -84,9 +84,15 @@ def bookTrip():
     cursor.execute(sql, dest_location_str)
     data = cursor.fetchone()
     destloc_id = data[0]
+
+    #ensures even balancing of travel agents by picking the one with the lowest amount of groups assigned
+    sql = "SELECT travel_agent_id, COUNT(1) AS `num` FROM `group` GROUP BY travel_agent_id ORDER BY `num` ASC"
+    cursor.execute(sql)
+    data = cursor.fetchone()
+    travel_agent_id = data[0]
     
     sql = "INSERT INTO `group`(`group_size`, `travel_agent_id`, `source_location`, `dest_location`) VALUES (%s,%s,%s,%s)"
-    cursor.execute(sql, (0, 1, sourceloc_id, destloc_id))
+    cursor.execute(sql, (0, travel_agent_id, sourceloc_id, destloc_id))
     cursor.execute(sql_fetchid)
     data = cursor.fetchone()
     group_id = data[0]
