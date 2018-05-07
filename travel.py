@@ -389,6 +389,7 @@ def chooseTransport():
 @app.route('/showPaymentForm', methods=['GET','POST'])
 def showPaymentForm():
     group_name = session.get('group_name', None)
+    group_id = session.get('group_id', None)
     price = session.get('price', None)
     car_price = session.get('car_price', None)
     transport_mode = session.get('transport_mode', None)
@@ -396,8 +397,20 @@ def showPaymentForm():
     car_class = session.get('car_class', None)
     car_check = session.get('car-check', None)
     total = int(price)
+
+    conn = mysql.get_db()
+    cursor = conn.cursor()
+    sql = "SELECT `group_size` FROM `group` WHERE `group_id` = %s"
+    cursor.execute(sql, (group_id))
+    data = cursor.fetchone()
+    num_passengers = data[0]
+    
     if car_check:
         total += float(car_price)
+
+    total = total * int(num_passengers)
+    session['total'] = total
+
     return render_template('payment.html', check = car_check, group_name = group_name, price = price, car_price = car_price, car_class = car_class, transport_mode = transport_mode, transport_class = transport_class, total = total)
 
 @app.route('/processPayment', methods=['POST'])
@@ -419,7 +432,7 @@ def processPayment():
     price = session.get('price', None)
     car_price = session.get('car_price', None)
 
-    amount_charged = price + car_price
+    amount_charged = session.get('total', None)
 
     sql = "INSERT INTO `payment`(`card_expr_date`, `card_num`, `payment_type`, `amount_charged`) VALUES (%s,%s,%s,%s)"
     cursor.execute(sql, (ccExp, ccNumber, paymentMethod, amount_charged))
