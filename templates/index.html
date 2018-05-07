@@ -109,7 +109,10 @@
                                         <form action="{{ url_for('showTripForm') }}" method="POST">
                                             <input type="hidden" name="location" value="Hawaii">
                                             <button type="submit" class="btn btn-sm btn-outline-secondary">Book</button>
-                                            <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+                                        </form>
+                                        <form action="{{ url_for('showReviews') }}" method="POST">
+                                            <input type="hidden" name="location" value="Hawaii">
+                                            <button type="submit" class="btn btn-sm btn-outline-secondary">View Reviews</button>
                                         </form>
                                     </div>
                                     <small class="text-muted">{% if v_hawaii %} {{v_hawaii}} {% else %} 0{% endif %} Booked</small>
@@ -127,7 +130,10 @@
                                         <form action="{{ url_for('showTripForm') }}" method="POST">
                                             <input type="hidden" name="location" value="Russia">
                                             <button type="submit" class="btn btn-sm btn-outline-secondary">Book</button>
-                                            <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+                                        </form>
+                                        <form action="{{ url_for('showReviews') }}" method="POST">
+                                            <input type="hidden" name="location" value="Russia">
+                                            <button type="submit" class="btn btn-sm btn-outline-secondary">View Reviews</button>
                                         </form>
                                     </div>
                                     <small class="text-muted">{% if v_russia %} {{v_russia}} {% else %} 0{% endif %} Booked</small>
@@ -145,7 +151,10 @@
                                         <form action="{{ url_for('showTripForm') }}" method="POST">
                                             <input type="hidden" name="location" value="Australia">
                                             <button type="submit" class="btn btn-sm btn-outline-secondary">Book</button>
-                                            <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+                                        </form>
+                                        <form action="{{ url_for('showReviews') }}" method="POST">
+                                            <input type="hidden" name="location" value="Australia">
+                                            <button type="submit" class="btn btn-sm btn-outline-secondary">View Reviews</button>
                                         </form>
                                     </div>
                                     <small class="text-muted">{% if v_australia %} {{v_australia}}{% else %} 0 {% endif %} Booked</small>
@@ -164,7 +173,10 @@
                                         <form action="{{ url_for('showTripForm') }}" method="POST">
                                             <input type="hidden" name="location" value="France">
                                             <button type="submit" class="btn btn-sm btn-outline-secondary">Book</button>
-                                            <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+                                        </form>
+                                        <form action="{{ url_for('showReviews') }}" method="POST">
+                                            <input type="hidden" name="location" value="France">
+                                            <button type="submit" class="btn btn-sm btn-outline-secondary">View Reviews</button>
                                         </form>
                                     </div>
                                     <small class="text-muted">{% if v_france %} {{v_france}} {% else %} 0{% endif %} Booked</small>
@@ -182,7 +194,10 @@
                                         <form action="{{ url_for('showTripForm') }}" method="POST">
                                             <input type="hidden" name="location" value="Greenland">
                                             <button type="submit" class="btn btn-sm btn-outline-secondary">Book</button>
-                                            <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+                                        </form>
+                                        <form action="{{ url_for('showReviews') }}" method="POST">
+                                            <input type="hidden" name="location" value="Greenland">
+                                            <button type="submit" class="btn btn-sm btn-outline-secondary">View Reviews</button>
                                         </form>
                                     </div>
                                     <small class="text-muted">{% if v_greenland %} {{v_greenland}} {% else %} 0{% endif %} Booked</small>
@@ -200,7 +215,10 @@
                                         <form action="{{ url_for('showTripForm') }}" method="POST">
                                             <input type="hidden" name="location" value="Japan">
                                             <button type="submit" class="btn btn-sm btn-outline-secondary">Book</button>
-                                            <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+                                        </form>
+                                        <form action="{{ url_for('showReviews') }}" method="POST">
+                                            <input type="hidden" name="location" value="Japan">
+                                            <button type="submit" class="btn btn-sm btn-outline-secondary">View Reviews</button>
                                         </form>
                                     </div>
                                     <small class="text-muted">{% if v_japan %} {{v_japan}} {% else %} 0 {% endif %} Booked</small>

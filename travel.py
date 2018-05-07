@@ -32,11 +32,6 @@ def index():
         
     return render_template('index.html', v_hawaii = num_visits[0], v_russia = num_visits[1], v_australia = num_visits[2], v_france = num_visits[3], v_greenland = num_visits[4], v_japan = num_visits[5])
 
-@app.route('/showTripForm', methods=['POST'])
-def showTripForm():
-    session['location'] = request.form['location']
-    return render_template('booktrip.html', location = request.form['location'])
-
 @app.route('/showLogin', methods=['GET','POST'])
 def showLogin():
     return render_template('signin.html')
@@ -56,6 +51,20 @@ def login():
 @app.route('/showTripsPage')
 def showTripsPage():
     return render_template('userviewtrips.html')
+
+@app.route('/showReviews', methods =['GET','POST'])
+def showReviews():
+    session['location'] = request.form['location']
+    return render_template('reviews.html', location = request.form['location'])  
+
+@app.route('/showTripForm', methods=['GET','POST'])
+def showTripForm():
+    session['location'] = request.form['location']
+    return render_template('booktrip.html', location = request.form['location'])
+
+@app.route('/showTripFormNoRequest', methods=['GET','POST'])
+def showTripFormNoRequest():
+    return render_template('booktrip.html', location = session.get('location', None))
 
 @app.route('/bookTrip', methods=['POST'])
 def bookTrip():
