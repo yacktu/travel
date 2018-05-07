@@ -46,41 +46,26 @@
             </ol>
             <div class="carousel-inner">
                 <div class="carousel-item active">
-                    <img class="first-slide" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="First slide">
+                    <img class="first-slide" src="../static/imgs/nature1.jpg" alt="First slide">
                     <div class="container">
                         <div class="carousel-caption text-left">
-                            <h1>Example headline.</h1>
-                            <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida
-                                at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-                            <p>
-                                <a class="btn btn-lg btn-primary" href="#" role="button">Sign up today</a>
-                            </p>
+                            <h1>J-Squared Bookings</h1>
                         </div>
                     </div>
                 </div>
                 <div class="carousel-item">
-                    <img class="second-slide" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Second slide">
+                    <img class="second-slide" src="../static/imgs/city1.jpg" alt="Second slide">
+                    <div class="container">
+                        <div class="carousel-caption text-left">
+                            <h1>J-Squared Bookings</h1>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <img class="third-slide" src="../static/imgs/vacation1.jpg" alt="Third slide">
                     <div class="container">
                         <div class="carousel-caption">
-                            <h1>Another example headline.</h1>
-                            <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida
-                                at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-                            <p>
-                                <a class="btn btn-lg btn-primary" href="#" role="button">Learn more</a>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="carousel-item">
-                    <img class="third-slide" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Third slide">
-                    <div class="container">
-                        <div class="carousel-caption text-right">
-                            <h1>One more for good measure.</h1>
-                            <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida
-                                at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-                            <p>
-                                <a class="btn btn-lg btn-primary" href="#" role="button">Browse gallery</a>
-                            </p>
+                            <h1>J-Squared Bookings</h1>
                         </div>
                     </div>
                 </div>
@@ -103,7 +88,9 @@
                         <div class="card mb-4 box-shadow">
                             <img class="card-img-top" src="../static/imgs/hawaii.jpg" alt="Hawaii">
                             <div class="card-body">
-                                <p class="card-text">Hawaii</p>
+                                <p class="card-text">Hawaii - From sandy beaches with emerald-blue water and palm trees under tranquil skies to
+                                    the rugged, black shoulders of volcanoes that continue to reshape the earth, the Hawaiian
+                                    Islands teem with diversity.</p>
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div class="btn-group">
                                         <form action="{{ url_for('showTripForm') }}" method="POST">
@@ -122,30 +109,37 @@
                     </div>
                     <div class="col-md-4">
                         <div class="card mb-4 box-shadow">
-                            <img class="card-img-top" src="../static/imgs/russia.jpg" alt="Russia">
+                            <img class="card-img-top" src="../static/imgs/greenland.jpg" alt="Greenland">
                             <div class="card-body">
-                                <p class="card-text">Russia</p>
+                                <p class="card-text">Greenland - Vast swaths of beautiful, unfenced wilderness give adventurers unique freedom
+                                    to wander at will, whether on foot, by ski or by dogsled. With virtually no roads, transportation
+                                    is expensive, but splurging on helicopter and boat rides is worth every penny. These
+                                    whisk you over truly magnificent mountainscapes and glaciers.</p>
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div class="btn-group">
                                         <form action="{{ url_for('showTripForm') }}" method="POST">
-                                            <input type="hidden" name="location" value="Russia">
+                                            <input type="hidden" name="location" value="Greenland">
                                             <button type="submit" class="btn btn-sm btn-outline-secondary">Book</button>
                                         </form>
                                         <form action="{{ url_for('showReviews') }}" method="POST">
-                                            <input type="hidden" name="location" value="Russia">
+                                            <input type="hidden" name="location" value="Greenland">
                                             <button type="submit" class="btn btn-sm btn-outline-secondary">View Reviews</button>
                                         </form>
                                     </div>
-                                    <small class="text-muted">{% if v_russia %} {{v_russia}} {% else %} 0{% endif %} Booked</small>
+                                    <small class="text-muted">{% if v_greenland %} {{v_greenland}} {% else %} 0{% endif %} Booked</small>
                                 </div>
                             </div>
                         </div>
                     </div>
+
                     <div class="col-md-4">
                         <div class="card mb-4 box-shadow">
                             <img class="card-img-top" src="../static/imgs/australia.jpg" alt="Australia">
                             <div class="card-body">
-                                <p class="card-text">Australia</p>
+                                <p class="card-text">Australia - Australia is a vast land with beautiful beaches, unusual bush animals, more than
+                                    60 wine regions and fascinating cities. Join a Cairns dive tour to swim among the Great
+                                    Barrier Reef's colorful fish and coral. Explore rainforests and watch crocodiles in nearby
+                                    Daintree. Surf and swim on the Gold Coast and Sunshine Coast.</p>
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div class="btn-group">
                                         <form action="{{ url_for('showTripForm') }}" method="POST">
@@ -167,7 +161,9 @@
                         <div class="card mb-4 box-shadow">
                             <img class="card-img-top" src="../static/imgs/france.jpg" alt="France">
                             <div class="card-body">
-                                <p class="card-text">France</p>
+                                <p class="card-text">France - France seduces travellers with its unfalteringly familiar culture, woven around
+                                    cafe terraces, village-square markets and lace-curtained bistros with their plat du jour
+                                    chalked on the board.</p>
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div class="btn-group">
                                         <form action="{{ url_for('showTripForm') }}" method="POST">
@@ -186,21 +182,22 @@
                     </div>
                     <div class="col-md-4">
                         <div class="card mb-4 box-shadow">
-                            <img class="card-img-top" src="../static/imgs/greenland.jpg" alt="Greenland">
+                            <img class="card-img-top" src="../static/imgs/russia.jpg" alt="Russia">
                             <div class="card-body">
-                                <p class="card-text">Greenland</p>
+                                <p class="card-text">Russia - Art and history, eclectic architecture and an extraordinarily varied landscape await
+                                    in the largest country in the world.</p>
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div class="btn-group">
                                         <form action="{{ url_for('showTripForm') }}" method="POST">
-                                            <input type="hidden" name="location" value="Greenland">
+                                            <input type="hidden" name="location" value="Russia">
                                             <button type="submit" class="btn btn-sm btn-outline-secondary">Book</button>
                                         </form>
                                         <form action="{{ url_for('showReviews') }}" method="POST">
-                                            <input type="hidden" name="location" value="Greenland">
+                                            <input type="hidden" name="location" value="Russia">
                                             <button type="submit" class="btn btn-sm btn-outline-secondary">View Reviews</button>
                                         </form>
                                     </div>
-                                    <small class="text-muted">{% if v_greenland %} {{v_greenland}} {% else %} 0{% endif %} Booked</small>
+                                    <small class="text-muted">{% if v_russia %} {{v_russia}} {% else %} 0{% endif %} Booked</small>
                                 </div>
                             </div>
                         </div>
@@ -209,7 +206,8 @@
                         <div class="card mb-4 box-shadow">
                             <img class="card-img-top" src="../static/imgs/japan.jpg" alt="Japan">
                             <div class="card-body">
-                                <p class="card-text">Japan</p>
+                                <p class="card-text">Japan - Japan is truly timeless, a place where ancient traditions are fused with modern life
+                                    as if it were the most natural thing in the world.</p>
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div class="btn-group">
                                         <form action="{{ url_for('showTripForm') }}" method="POST">
@@ -237,10 +235,7 @@
             <p class="float-right">
                 <a href="#">Back to top</a>
             </p>
-            <p>Album example is &copy; Bootstrap, but please download and customize it for yourself!</p>
-            <p>New to Bootstrap?
-                <a href="../../">Visit the homepage</a> or read our
-                <a href="../../getting-started/">getting started guide</a>.</p>
+            <p>&copy; J2-2018</p>
         </div>
     </footer>
 
