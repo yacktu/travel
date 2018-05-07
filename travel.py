@@ -128,7 +128,7 @@ def bookTrip():
     
     sql = '''INSERT INTO `passenger`(`first_name`,`last_name`,`email`, `age`,
     `phone_number`, `group_id`) VALUES (%s,%s,%s,%s,%s,%s)'''
-    cursor.execute(sql, (first_name, last_name, phone_number, age, email, group_id))
+    cursor.execute(sql, (first_name, last_name, email, age, phone_number, group_id))
     conn.commit()
 
     session['group_id'] = group_id
@@ -155,7 +155,7 @@ def addGuest():
     cursor = conn.cursor()
     sql = '''INSERT INTO `passenger`(`first_name`,`last_name`,`email`, `age`,
     `phone_number`,`group_id`) VALUES (%s,%s,%s,%s,%s,%s)'''
-    cursor.execute(sql, (first_name, last_name, phone_number, age, email, session.get('group_id', None)))
+    cursor.execute(sql, (first_name, last_name, email, age, phone_number, session.get('group_id', None)))
 
     conn.commit()
     if request.form.get('another-guest'):
