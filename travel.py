@@ -357,13 +357,19 @@ def chooseTransport():
 
     if request.form.get('car-check'):
         print("Checked")
+        session['car-check'] = True
+
         car_class = request.form['car-class']
         rental_days = request.form['car-days']
 
+        session['car_class'] = car_class
+        car_price = 0
         if car_class == "Standard":
             car_price = 50 * int(rental_days)
         elif car_class == "Luxury":
             car_price = 150 * int(rental_days)
+
+        session['car_price'] = car_price
 
         sql = "INSERT INTO `car_rental`(`price`, `class`, `days_rented`) VALUES (%s,%s,%s)"
         cursor.execute(sql, (car_price, car_class, rental_days))
@@ -371,10 +377,9 @@ def chooseTransport():
         data = cursor.fetchone()
         car_rental_id = data[0]
 
-
     session['price'] = price
-    session['car_price'] = car_price
     session['transport_mode'] = transport_mode
+    session['transport_class'] = transport_class
 
     group_id = session.get('group_id', None)
     sql = "UPDATE `group` SET `flight_id` = %s, `cruise_id` = %s, `car_rental_id` = %s WHERE `group_id` = %s"
@@ -382,9 +387,19 @@ def chooseTransport():
     conn.commit()
     return redirect(url_for('showPaymentForm'))
 
-@app.route('/showPaymentForm', methods=['POST'])
+@app.route('/showPaymentForm', methods=['GET','POST'])
 def showPaymentForm():
-    return render_template('payment.html', group_name = session.get('group_name', None))
+    group_name = session.get('group_name', None)
+    price = session.get('price', None)
+    car_price = session.get('car_price', None)
+    transport_mode = session.get('transport_mode', None)
+    transport_class = session.get('transport_class', None)
+    car_class = session.get('car_class', None)
+    car_check = session.get('car-check', None)
+    total = int(price)
+    if car_check:
+        total += float(car_price)
+    return render_template('payment.html', check = car_check, group_name = group_name, price = price, car_price = car_price, car_class = car_class, transport_mode = transport_mode, transport_class = transport_class, total = total)
 
 @app.route('/processPayment', methods=['POST'])
 def processPayment():

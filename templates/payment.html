@@ -31,14 +31,28 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th scope="col">Service</th>
+                    <th scope="col">Transport</th>
+                    <th scope="col">Class</th>
                     <th scope="col">Price</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td scope="row">Car</td>
-                    <td>200</td>
+                    <td scope="row">{% if transport_mode %} {{transport_mode}} {% endif %}</td>
+                    <td>{% if transport_class %} {{transport_class}} {% endif %}</td>
+                    <td>{% if price %} {{price}} {% endif %}</td>
+                </tr>
+                {% if check %}
+                <tr>
+                    <td scope="row">Car Rental</td>
+                    <td>{% if car_class %} {{car_class}} {% endif %}</td>
+                    <td>{% if car_price %} {{car_price}} {% endif %}</td>
+                </tr>
+                {% endif %}
+                <tr>
+                    <td scope="row">Total</td>
+                    <td></td>
+                    <td>{% if total %} {{total}} {% endif %}</td>
                 </tr>
             </tbody>
         </table>
