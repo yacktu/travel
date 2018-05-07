@@ -141,6 +141,7 @@ def showTripsPage():
         data = cursor.fetchall()
         cruise_data = data[0]
         travel = Travel("Cruise", cruise_data[2], cruise_data[1], car_rental, cruise_data[3], cruise_data[4])
+    
     elif flight_id != None:
         sql = "SELECT * FROM `flight` WHERE `flight_id` = %s"
         cursor.execute(sql, (flight_id))
