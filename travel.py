@@ -1,6 +1,7 @@
 from flask import Flask, render_template, json, request,redirect,url_for,session
 from flaskext.mysql import MySQL
 from my_utils import verbose_print, error_print
+import random
 app = Flask(__name__)
 mysql = MySQL()
 
@@ -17,12 +18,13 @@ mysql.init_app(app)
 
 class Group:
     
-    def __init__(self, name, cost, travel, dest, agent):
+    def __init__(self, name, cost, travel, dest, agent, passenger):
         self.name = name
         self.cost = cost
         self.travel = travel
         self.dest = dest
         self.agent = agent
+        self.passenger = passenger
 
 class Agent:
 
@@ -134,8 +136,12 @@ def bookTrip():
 
     #PAYMENT INFO
     ccNumber = request.form['cc-number']
-    ccExp = request.form['cc-expiration']
+    ccMonth = request.form['cc-month']
+    ccYear = request.form['cc-year']
     ccCVV = request.form['cc-cvv']
+    paymentMethod = request.form['paymentMethod']
+    print(paymentMethod)
+    ccExp = ccMonth + "/" + ccYear
 
     conn = mysql.get_db()
     cursor = conn.cursor()
@@ -146,7 +152,7 @@ def bookTrip():
     cursor.execute(sql, (state, country, city))
     data = cursor.fetchone()
 
-    if data[0] == None:
+    if data == None:
         sql = "INSERT INTO `location`(`state`, `country`, `city_name`) VALUES (%s,%s,%s)"
         cursor.execute(sql, (state, country, city))
         cursor.execute(sql_fetchid);
@@ -167,12 +173,13 @@ def bookTrip():
     travel_agent_id = data[0]
 
     sql = "INSERT INTO `payment`(`card_expr_date`, `card_num`, `payment_type`) VALUES (%s,%s,%s)"
-    cursor.execute(sql, (ccExp, ccNumber, "Credit"))
+    cursor.execute(sql, (ccExp, ccNumber, paymentMethod))
     cursor.execute(sql_fetchid);
     data = cursor.fetchone()
     payment_id = data[0]
     
-    sql = "INSERT INTO `group`(`group_size`, `passkey`, `payment_id`, `travel_agent_id`, `source_location`, `dest_location`) VALUES (%s,%s,%s,%s)"
+    sql = '''INSERT INTO `group`(`group_size`, `passkey`, `payment_id`, `travel_agent_id`,
+    `source_location`, `dest_location`) VALUES (%s,%s,%s,%s,%s,%s)'''
     cursor.execute(sql, (0, passkey, payment_id, travel_agent_id, sourceloc_id, destloc_id))
     cursor.execute(sql_fetchid)
     data = cursor.fetchone()
@@ -222,7 +229,72 @@ def showTransportForm():
 @app.route('/chooseTransport', methods=['POST'])
 def chooseTransport():
     print('Booked')
-    # use reqeust.form.get('name_of_button_input') to get if checked. Use this to popualte database
+    #Travel
+    transport_mode = request.form['transport-mode']
+    transport_class = request.form['class']
+    dep_month = request.form['dep-month']
+    dep_day = request.form['dep-day']
+    dep_time = request.form['dep-time']
+    ret_month = request.form['ret-month']
+    ret_day = request.form['ret-day']
+    ret_time = request.form['ret-time']
+
+    dep_date = "2018-" + dep_month + "-" + dep_day + " " + dep_time + ":00:00"
+    ret_date = "2018-" + ret_month + "-" + ret_day + " " + ret_time + ":00:00"
+
+    conn = mysql.get_db()
+    cursor = conn.cursor()
+    sql_fetchid = "SELECT LAST_INSERT_ID();"
+
+    flight_no = random.randint(1000, 9999)
+
+    if transport_class == "Economy":
+        price = 250
+    elif transport_class == "Business":
+        price = 500
+    elif transport_class == "Luxury":
+        price = 1000
+
+    flight_id = None
+    cruise_id = None
+    car_rental_id = None
+
+    print(transport_mode)
+    
+    if transport_mode == "Flight":
+        sql = "INSERT INTO `flight`(`flight_no`, `class`, `price`, `depart_date`, `return_date`) VALUES (%s,%s,%s,%s,%s)"
+        cursor.execute(sql, (flight_no, transport_class, price, dep_date, ret_date))
+        cursor.execute(sql_fetchid)
+        data = cursor.fetchone()
+        flight_id = data[0]
+    elif transport_mode == "Cruise":
+        sql = "INSERT INTO `cruise`(`price`, `class`, `depart_date`, `return_date`) VALUES (%s,%s,%s,%s)"
+        cursor.execute(sql, (price, transport_class, dep_date, ret_date))
+        cursor.execute(sql_fetchid)
+        data = cursor.fetchone()
+        cruise_id = data[0]    
+
+    if request.form.get('car-check'):
+        print("Checked")
+        car_class = request.form['car-class']
+        rental_days = request.form['car-days']
+
+        if car_class == "Standard":
+            car_price = 50 * int(rental_days)
+        elif car_class == "Luxury":
+            car_price = 150 * int(rental_days)
+
+        sql = "INSERT INTO `car_rental`(`price`, `class`, `days_rented`) VALUES (%s,%s,%s)"
+        cursor.execute(sql, (car_price, car_class, rental_days))
+        cursor.execute(sql_fetchid)
+        data = cursor.fetchone()
+        car_rental_id = data[0]
+
+
+    group_id = session.get('group_id', None)
+    sql = "UPDATE `group` SET `flight_id` = %s, `cruise_id` = %s, `car_rental_id` = %s WHERE `group_id` = %s"
+    cursor.execute(sql, (flight_id, cruise_id, car_rental_id, group_id))
+    conn.commit()
     return redirect(url_for('index'))
 
 if __name__ == "__main__":
