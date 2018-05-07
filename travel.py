@@ -152,11 +152,10 @@ def showTripsPage():
     sql = "SELECT * FROM `location` WHERE `location_id` = %s"
     cursor.execute(sql, (dest_loc))
     data = cursor.fetchall()
+
     location_data = data[0]
     location = Location(location_data[1], location_data[2], location_data[3])
-
     session['location_id'] = dest_loc
-    session['location_data'] = location
     
     return render_template('userviewtrips.html', agent = agent, car_rental = car_rental, travel = travel, location = location)
 

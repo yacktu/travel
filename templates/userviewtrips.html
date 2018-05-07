@@ -106,7 +106,7 @@
             </tbody>
         </table>
         <h4>Review Your Trip</h4>
-        <form>
+        <form action="{{ url_for('addReview') }}" method="POST">
             <div class="row">
                 <div class="col-md-4 mb-3">
                     <label>Name</label>
@@ -129,9 +129,7 @@
                 </div>
             </div>
             <div class="text-center">
-                <form action="{{ url_for('addReview') }}" method="POST">
-                    <button class="btn btn-primary btn-lg" type="submit">Leave Review</button>
-                </form>
+                <button class="btn btn-primary btn-lg" type="submit">Leave Review</button>
             </div>
         </form>
         <footer class="my-5 pt-5 text-muted text-center text-small">
