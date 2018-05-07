@@ -38,9 +38,8 @@
             <img class="d-block mx-auto mb-4" src="https://getbootstrap.com/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
             <i class="fa fa-plane" style="font-size: 64px"></i>
             <h2>Welcome</h2>
-            <h3>Your Trip to {% if location.country %} {{location.country}} {% endif %} - 
-                    {% if location.state %} {{location.state}} - {% endif %} 
-                    {% if location.city_name %} {{location.city_name}} {% endif %}
+            <h3>Your Trip to {% if location.country %} {{location.country}} {% endif %} - {% if location.state %} {{location.state}}
+                - {% endif %} {% if location.city_name %} {{location.city_name}} {% endif %}
             </h3>
         </div>
 
@@ -52,36 +51,57 @@
                 <tr>
                     <th scope="col">Transport Mode</th>
                     <th scope="col">Class</th>
-                    <th scope="col">Arrival Time</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Depart Time</th>
                     <th scope="col">Return Time</th>
-                    <th scope="col">Phone No.</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td scope="row">{% if travel.travel_type %} {{travel.travel_type}} {% endif %}</td>
+                    <td>{% if travel.travel_class %} {{travel.travel_class}} {% endif %}</td>
+                    <td>{% if travel.price %} {{travel.price}} {% endif %}</td>
+                    <td>{% if travel.depart_date %} {{travel.depart_date}} {% endif %}</td>
+                    <td>{% if travel.return_date %} {{travel.return_date}} {% endif %}</td>
+                </tr>
+            </tbody>
+        </table>
+        {% if car_rental %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Transport Mode</th>
+                    <th scope="col">Class</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Num Days</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td scope="row">Car Rental</td>
+                    <td>{% if car_rental.class_type %} {{car_rental.class_type}} {% endif %}</td>
+                    <td>{% if car_rental.price %} {{car_rental.price}} {% endif %}</td>
+                    <td>{% if car_rental.num_days %} {{car_rental.num_days}} {% endif %}</td>
+                </tr>
+            </tbody>
+        </table>
+        {% endif %}
+        <h4>Travel Agent Contact Info</h4>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">First Name</th>
+                    <th scope="col">Last Name</th>
+                    <th scope="col">Phone Number</th>
                     <th scope="col">Email</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <th scope="row">{% if travel.travel_type %} {{travel.travel_type}} {% endif %}</th>
-                    <td>jack</td>
-                    <td>smith</td>
-                    <td>29</td>
-                    <td>123-456-7890</td>
-                    <td>None</td>
-                </tr>
-                <tr>
-                    <th scope="row">jack</th>
-                    <td>jack</td>
-                    <td>smith</td>
-                    <td>29</td>
-                    <td>123-456-7890</td>
-                    <td>js@js.com</td>
-                </tr>
-                <tr>
-                    <th scope="row">jack</th>
-                    <td>jack</td>
-                    <td>smith</td>
-                    <td>29</td>
-                    <td>123-456-7890</td>
-                    <td>None</td>
+                    <td scope="row">{% if agent.first_name %} {{agent.first_name}} {% endif %}</td>
+                    <td>{% if agent.last_name %} {{agent.last_name}} {% endif %}</td>
+                    <td>{% if agent.phone_number %} {{agent.phone_number}} {% endif %}</td>
+                    <td>{% if agent.email %} {{agent.email}} {% endif %}</td>
                 </tr>
             </tbody>
         </table>
