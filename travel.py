@@ -230,15 +230,6 @@ def bookTrip():
     state = request.form['state']
     city = request.form['city']
 
-    #PAYMENT INFO
-    ccNumber = request.form['cc-number']
-    ccMonth = request.form['cc-month']
-    ccYear = request.form['cc-year']
-    ccCVV = request.form['cc-cvv']
-    paymentMethod = request.form['paymentMethod']
-    print(paymentMethod)
-    ccExp = ccMonth + "/" + ccYear
-
     conn = mysql.get_db()
     cursor = conn.cursor()
     sql_fetchid = "SELECT LAST_INSERT_ID();"
@@ -267,16 +258,10 @@ def bookTrip():
     cursor.execute(sql)
     data = cursor.fetchone()
     travel_agent_id = data[0]
-
-    sql = "INSERT INTO `payment`(`card_expr_date`, `card_num`, `payment_type`) VALUES (%s,%s,%s)"
-    cursor.execute(sql, (ccExp, ccNumber, paymentMethod))
-    cursor.execute(sql_fetchid);
-    data = cursor.fetchone()
-    payment_id = data[0]
     
-    sql = '''INSERT INTO `group`(`group_size`, `passkey`, `payment_id`, `travel_agent_id`,
-    `source_location`, `dest_location`) VALUES (%s,%s,%s,%s,%s,%s)'''
-    cursor.execute(sql, (0, passkey, payment_id, travel_agent_id, sourceloc_id, destloc_id))
+    sql = '''INSERT INTO `group`(`group_size`, `passkey`, `travel_agent_id`,
+    `source_location`, `dest_location`) VALUES (%s,%s,%s,%s,%s)'''
+    cursor.execute(sql, (0, passkey, travel_agent_id, sourceloc_id, destloc_id))
     cursor.execute(sql_fetchid)
     data = cursor.fetchone()
     group_id = data[0]
@@ -387,6 +372,10 @@ def chooseTransport():
         car_rental_id = data[0]
 
 
+    session['price'] = price
+    session['car_price'] = car_price
+    session['transport_mode'] = transport_mode
+
     group_id = session.get('group_id', None)
     sql = "UPDATE `group` SET `flight_id` = %s, `cruise_id` = %s, `car_rental_id` = %s WHERE `group_id` = %s"
     cursor.execute(sql, (flight_id, cruise_id, car_rental_id, group_id))
@@ -399,6 +388,35 @@ def showPaymentForm():
 
 @app.route('/processPayment', methods=['POST'])
 def processPayment():
+
+    conn = mysql.get_db()
+    cursor = conn.cursor()
+    sql_fetchid = "SELECT LAST_INSERT_ID();"
+
+    #PAYMENT INFO
+    ccNumber = request.form['cc-number']
+    ccMonth = request.form['cc-month']
+    ccYear = request.form['cc-year']
+    ccCVV = request.form['cc-cvv']
+    paymentMethod = request.form['paymentMethod']
+    ccExp = ccMonth + "/" + ccYear
+
+    group_id = session.get('group_id', None)
+    price = session.get('price', None)
+    car_price = session.get('car_price', None)
+
+    amount_charged = price + car_price
+
+    sql = "INSERT INTO `payment`(`card_expr_date`, `card_num`, `payment_type`, `amount_charged`) VALUES (%s,%s,%s,%s)"
+    cursor.execute(sql, (ccExp, ccNumber, paymentMethod, amount_charged))
+    cursor.execute(sql_fetchid);
+    data = cursor.fetchone()
+    payment_id = data[0]
+
+    sql = "UPDATE `group` SET `payment_id` = %s WHERE `group_id` = %s"
+    cursor.execute(sql, (payment_id, group_id))
+    
+    conn.commit()
     return redirect(url_for('index'))
 
 if __name__ == "__main__":
