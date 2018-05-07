@@ -43,27 +43,19 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th scope="col">Groupname</th>
+                    <th scope="col">Username</th>
                     <th scope="col">Rating</th>
                     <th scope="col">Review</th>
                 </tr>
             </thead>
             <tbody>
+                {% for review in reviews %}
                 <tr>
-                    <th scope="row">Group1</th>
-                    <td>5</td>
-                    <td>Amazingly cozy</td>
+                    <td scope="row">{% if review.username %} {{review.username}} {% endif %}</td>
+                    <td>{% if review.rating %} {{review.rating}} {% endif %}</td>
+                    <td>{% if review.review %} {{review.review}} {% endif %}</td>
                 </tr>
-                <tr>
-                    <th scope="row">Group1</th>
-                    <td>5</td>
-                    <td>Amazingly cozy</td>
-                </tr>
-                <tr>
-                    <th scope="row">Group1</th>
-                    <td>5</td>
-                    <td>Amazingly cozy</td>
-                </tr>
+                {% endfor %}
             </tbody>
         </table>
 
