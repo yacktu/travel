@@ -34,28 +34,27 @@ class Agent:
 
 class Travel:
 
-    def __init__(self, flight, cruise, car_rental, depart_date, return_date):
-        self.flight = flight
-        self.cruise = cruise
+    def __init__(self, travel_type, travel_class, price, car_rental, depart_date, return_date):
+        self.travel_type = travel_type
+        self.travel_class = travel_class
+        self.price = price
         self.car_rental = car_rental
         self.depart_date = depart_date
         self.return_date = return_date
 
-class Flight:
-
-    def __init__(self, flight_class):
-        self.flight_class = flight_class
-
-class Cruise:
-
-    def __init__(self, cruise_class):
-        self.cruise_class = cruise_class
-
 class Car_Rental:
 
-    def __init__(self, car_class, num_days):
-        self.car_class = car_class
+    def __init__(self, class_type, num_days, price):
+        self.class_type = class_type
         self.num_days = num_days
+        self.price = price
+
+class Location:
+
+    def __init__(self, state, country, city_name):
+        self.state = state
+        self.country = country
+        self.city_name = city_name
     
 
 @app.route("/")
@@ -121,8 +120,35 @@ def showTripsPage():
     data = cursor.fetchall()
     agent_data = data[0]
     agent = Agent(agent_data[1], agent_data[2], agent_data[3], agent_data[4])
+
+    car_rental = None
+    if car_rental_id != None:
+        sql = "SELECT FROM `car_rental` WHERE `car_rental_id` = %s"
+        cursor.execute(sql, (car_rental_id))
+        data = cursor.fetchall()
+        car_data = data[0]
+        car_rental = Car_Rental(car_data[2], car_data[4], car_data[1])
+
+    if cruise_id != None:
+        sql = "SELECT * FROM `cruise` WHERE `cruise_id` = %s"
+        cursor.execute(sql, (cruise_id))
+        data = cursor.fetchall()
+        cruise_data = data[0]
+        travel = Travel("Cruise", cruise_data[2], cruise_data[1], car_rental, cruise_data[3], cruise_data[4])
+    elif flight_id != None:
+        sql = "SELECT * FROM `flight` WHERE `flight_id` = %s"
+        cursor.execute(sql, (flight_id))
+        data = cursor.fetchall()
+        flight_data = data[0]
+        travel = Travel("Flight", flight_data[2], flight_data[3], car_rental, flight_data[4], flight_data[5])
+
+    sql = "SELECT * FROM `location` WHERE `location_id` = %s"
+    cursor.execute(sql, (dest_loc))
+    data = cursor.fetchall()
+    location_data = data[0]
+    location = Location(location_data[1], location_data[2], location_data[3])
     
-    return render_template('userviewtrips.html')
+    return render_template('userviewtrips.html', agent = agent, car_rental = car_rental, travel = travel, location = location)
 
 @app.route('/showReviews', methods =['GET','POST'])
 def showReviews():
