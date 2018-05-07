@@ -55,7 +55,13 @@ class Location:
         self.state = state
         self.country = country
         self.city_name = city_name
-    
+
+class Review:
+
+    def __init__(self, username, rating, review):
+        self.username = username
+        self.rating = rating
+        self.review = review
 
 @app.route("/")
 @app.route("/index", methods=['GET','POST'])
@@ -147,16 +153,48 @@ def showTripsPage():
     data = cursor.fetchall()
     location_data = data[0]
     location = Location(location_data[1], location_data[2], location_data[3])
+
+    session['location_id'] = dest_loc
+    session['location_data'] = location
     
     return render_template('userviewtrips.html', agent = agent, car_rental = car_rental, travel = travel, location = location)
 
 @app.route('/showReviews', methods =['GET','POST'])
 def showReviews():
     session['location'] = request.form['location']
-    return render_template('reviews.html', location = request.form['location'])  
 
-@app.route('/addReview')
+    conn = mysql.get_db()
+    cursor = conn.cursor()
+    sql = "SELECT `location_id` from `location` WHERE `country` = %s"
+    cursor.execute(sql, (request.form['location']))
+    data = cursor.fetchone()
+    location_id = data[0]
+
+    sql = "SELECT * from `reviews` WHERE `location_id` = %s"
+    cursor.execute(sql, (location_id))
+    data = cursor.fetchall()
+    review_array = []
+    for review_tuple in data:
+        review = Review(review_tuple[1], review_tuple[2], review_tuple[3])
+        review_array.append(review)
+    
+    return render_template('reviews.html', location = request.form['location'], reviews = review_array)  
+
+@app.route('/addReview', methods = ['POST'])
 def addReview():
+
+    #REVIEWS
+    username = request.form['review-name']
+    rating = request.form['star-count']
+    review = request.form['review-comment']
+    location_id = session.get('location_id', None)
+
+    conn = mysql.get_db()
+    cursor = conn.cursor()
+    sql = "INSERT INTO `reviews`(`username`, `rating`, `detailed_review`, `location_id`) VALUES (%s,%s,%s,%s)"
+    cursor.execute(sql, (username, rating, review, location_id))
+
+    conn.commit()
     return redirect(url_for('index'))
 
 @app.route('/showTripForm', methods=['GET','POST'])
