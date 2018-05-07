@@ -18,9 +18,7 @@ mysql.init_app(app)
 
 class Group:
     
-    def __init__(self, name, cost, travel, dest, agent, passenger):
-        self.name = name
-        self.cost = cost
+    def __init__(self, travel, dest, agent, passenger):
         self.travel = travel
         self.dest = dest
         self.agent = agent
@@ -83,18 +81,47 @@ def showLogin():
 
 @app.route('/login', methods=['POST'])
 def login():
-    # if failed to login successfully:
-    if False:
+
+    conn = mysql.get_db()
+    cursor = conn.cursor()
+
+    email = request.form['inputEmail']
+    password = request.form['inputPassword']
+
+    sql = "SELECT `group`.`group_id` FROM `passenger`, `group` WHERE `email` = %s and `passkey` = %s"
+    cursor.execute(sql, (email, password))
+    data = cursor.fetchone()
+    
+    if data == None:
         return render_template('signin.html', failed=True)
-    # otherwise if admin render admin page
-    # return redirect(url_for('showAdminPage'))
-    # otherwise render regular page
     else:
+        session['group_id'] = data[0]
         return redirect(url_for('showTripsPage'))
-    # return redirect(url_for('showTripsPage'))
 
 @app.route('/showTripsPage')
 def showTripsPage():
+
+    conn = mysql.get_db()
+    cursor = conn.cursor()
+
+    sql = "SELECT * FROM `group` WHERE `group`.`group_id` = %s"
+    cursor.execute(sql, (session.get('group_id', None)))
+    data = cursor.fetchall()
+
+    #Grab data from returned tuple
+    group_data = data[0]
+    travel_agent_id = group_data[3]
+    cruise_id = group_data[4]
+    car_rental_id = group_data[5]
+    flight_id = group_data[6]
+    dest_loc = group_data[7]
+
+    sql = "SELECT * FROM `travel_agent` WHERE `agent_id` = %s"
+    cursor.execute(sql, (travel_agent_id))
+    data = cursor.fetchall()
+    agent_data = data[0]
+    agent = Agent(agent_data[1], agent_data[2], agent_data[3], agent_data[4])
+    
     return render_template('userviewtrips.html')
 
 @app.route('/showReviews', methods =['GET','POST'])
