@@ -15,6 +15,49 @@ app.config['MYSQL_DATABASE_PORT'] = 3306
 app.secret_key = "super secret key"
 mysql.init_app(app)
 
+class Group:
+    
+    def __init__(self, name, cost, travel, dest, agent):
+        self.name = name
+        self.cost = cost
+        self.travel = travel
+        self.dest = dest
+        self.agent = agent
+
+class Agent:
+
+    def __init__(self, first_name, last_name, phone_number, email):
+        self.first_name = first_name
+        self.last_name = last_name
+        self.phone_number = phone_number
+        self.email = email
+
+class Travel:
+
+    def __init__(self, flight, cruise, car_rental, depart_date, return_date):
+        self.flight = flight
+        self.cruise = cruise
+        self.car_rental = car_rental
+        self.depart_date = depart_date
+        self.return_date = return_date
+
+class Flight:
+
+    def __init__(self, flight_class):
+        self.flight_class = flight_class
+
+class Cruise:
+
+    def __init__(self, cruise_class):
+        self.cruise_class = cruise_class
+
+class Car_Rental:
+
+    def __init__(self, car_class, num_days):
+        self.car_class = car_class
+        self.num_days = num_days
+    
+
 @app.route("/")
 @app.route("/index", methods=['GET','POST'])
 def index():
