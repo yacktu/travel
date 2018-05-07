@@ -39,7 +39,7 @@
             <i class="fa fa-plane" style="font-size: 64px"></i>
             <h2>Reviews for {% if location %} {{location}} {% endif %} </h2>
         </div>
-
+        {% if reviews %}
         <table class="table">
             <thead>
                 <tr>
@@ -58,6 +58,11 @@
                 {% endfor %}
             </tbody>
         </table>
+        {% else %}
+        <div class="text-center">
+            <h4>This location has no reviews.</h4>
+        </div>
+        {% endif %}
 
         <div class="text-center">
             <form action="{{ url_for('showTripFormNoRequest') }}" method="POST">
