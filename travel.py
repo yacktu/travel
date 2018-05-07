@@ -390,13 +390,12 @@ def chooseTransport():
 def showPaymentForm():
     group_name = session.get('group_name', None)
     group_id = session.get('group_id', None)
-    price = session.get('price', None)
+    trans_price = session.get('price', None)
     car_price = session.get('car_price', None)
     transport_mode = session.get('transport_mode', None)
     transport_class = session.get('transport_class', None)
     car_class = session.get('car_class', None)
     car_check = session.get('car-check', None)
-    total = int(price)
 
     conn = mysql.get_db()
     cursor = conn.cursor()
@@ -404,14 +403,14 @@ def showPaymentForm():
     cursor.execute(sql, (group_id))
     data = cursor.fetchone()
     num_passengers = data[0]
-    
+
+    total = trans_price * int(num_passengers)
     if car_check:
         total += float(car_price)
 
-    total = total * int(num_passengers)
     session['total'] = total
 
-    return render_template('payment.html', check = car_check, group_name = group_name, price = price, car_price = car_price, car_class = car_class, transport_mode = transport_mode, transport_class = transport_class, total = total)
+    return render_template('payment.html', num_pass = int(num_passengers), check = car_check, group_name = group_name, price = trans_price, car_price = car_price, car_class = car_class, transport_mode = transport_mode, transport_class = transport_class, total = total)
 
 @app.route('/processPayment', methods=['POST'])
 def processPayment():

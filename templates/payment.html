@@ -37,11 +37,13 @@
                 </tr>
             </thead>
             <tbody>
+                    {% for i in range(0,num_pass) %}
                 <tr>
                     <td scope="row">{% if transport_mode %} {{transport_mode}} {% endif %}</td>
                     <td>{% if transport_class %} {{transport_class}} {% endif %}</td>
                     <td>{% if price %} {{price}} {% endif %}</td>
                 </tr>
+                {% endfor %}
                 {% if check %}
                 <tr>
                     <td scope="row">Car Rental</td>
