@@ -122,7 +122,7 @@ def showTripsPage():
     agent_data = data[0]
     agent = Agent(agent_data[1], agent_data[2], agent_data[3], agent_data[4])
     
-    return render_template('userviewtrips.html')
+    return render_template('userviewtrips.html', agent = agent)
 
 @app.route('/showReviews', methods =['GET','POST'])
 def showReviews():
