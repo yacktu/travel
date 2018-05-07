@@ -114,54 +114,6 @@
                             <input type="text" class="form-control" name="city" id="city" placeholder="" required>
                         </div>
                     </div>
-
-                    <h4 class="mb-3">Payment</h4>
-
-                    <div class="d-block my-3">
-                        <div class="custom-control custom-radio">
-                            <input id="credit" name="paymentMethod" type="radio" class="custom-control-input" value="Credit" checked required>
-                            <label class="custom-control-label" for="credit">Credit card</label>
-                        </div>
-                        <div class="custom-control custom-radio">
-                            <input id="debit" name="paymentMethod" type="radio" class="custom-control-input" value="Debit" required>
-                            <label class="custom-control-label" for="debit">Debit card</label>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label>Name on card</label>
-                            <input type="text" class="form-control" name="cc-name" id="cc-name" placeholder="" required>
-                            <small class="text-muted">Full name as displayed on card</small>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <label>Credit card number</label>
-                            <input type="text" class="form-control" name="cc-number" id="cc-number" placeholder="" required>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-3 mb-3">
-                            <label>Expiration Month</label>
-                            <select class="custom-select d-block w-100" name="cc-month" id="month" required>
-                                <option value="">Choose...</option>
-                                {% for i in range(1,13) %}
-                                <option>{{i}}</option>
-                                {% endfor %}
-                            </select>
-                        </div>
-                        <div class="col-md-3 mb-3">
-                            <label>Expiration Year</label>
-                            <select class="custom-select d-block w-100" name="cc-year" id="month" required>
-                                <option value="">Choose...</option>
-                                {% for i in range(2018,2029) %}
-                                <option>{{i}}</option>
-                                {% endfor %}
-                            </select>
-                        </div>
-                        <div class="col-md-3 mb-3">
-                            <label>CVV</label>
-                            <input type="text" class="form-control" name="cc-cvv" id="cc-cvv" placeholder="" required>
-                        </div>
-                    </div>
                     <div class="checkbox">
                         <h4>
                             <input type="checkbox" name="another-guest" value="True"> Add another guest to your group</h4>

@@ -391,6 +391,14 @@ def chooseTransport():
     sql = "UPDATE `group` SET `flight_id` = %s, `cruise_id` = %s, `car_rental_id` = %s WHERE `group_id` = %s"
     cursor.execute(sql, (flight_id, cruise_id, car_rental_id, group_id))
     conn.commit()
+    return redirect(url_for('showPaymentForm'))
+
+@app.route('/showPaymentForm', methods=['POST'])
+def showPaymentForm():
+    return render_template('payment.html', group_name = session.get('group_name', None))
+
+@app.route('/processPayment', methods=['POST'])
+def processPayment():
     return redirect(url_for('index'))
 
 if __name__ == "__main__":
