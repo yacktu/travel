@@ -34,11 +34,11 @@
                     <h4>How would you like to travel?</h4>
                     <div class="d-block my-3">
                         <div class="custom-control custom-radio">
-                            <input id="flight" name="transport-mode" type="radio" class="custom-control-input" value="Flight"checked required>
+                            <input id="flight" name="transport-mode" type="radio" class="custom-control-input" value="Flight" checked required>
                             <label class="custom-control-label" for="flight">Flight</label>
                         </div>
                         <div class="custom-control custom-radio">
-                            <input id="cruise" name="transport-mode" type="radio" class="custom-control-input" value="Cruise"required>
+                            <input id="cruise" name="transport-mode" type="radio" class="custom-control-input" value="Cruise" required>
                             <label class="custom-control-label" for="cruise">Cruise</label>
                         </div>
                     </div>
@@ -53,7 +53,7 @@
                             <label class="custom-control-label" for="business">Business</label>
                         </div>
                         <div class="custom-control custom-radio">
-                            <input id="luxury" name="class" type="radio" class="custom-control-input"value="Luxury" required>
+                            <input id="luxury" name="class" type="radio" class="custom-control-input" value="Luxury" required>
                             <label class="custom-control-label" for="luxury">Luxury</label>
                         </div>
                     </div>
@@ -121,9 +121,16 @@
 
                     <div class="checkbox">
                         <h4>
-                            <input id="car-rent-check" onclick="showHideCar()" type="checkbox" name="another-guest" value=""> Car Rental</h4>
+                            <input id="car-rent-check" name="car-check" onclick="showHideCar()" type="checkbox" name="another-guest" value=""> Car Rental</h4>
                     </div>
                     <div id="car-options" style="display:none">
+                        <div class="row">
+                            <div class="col-md-2 mb-2">
+                                <label>Number of days your group want to rent</label>
+                                <input type="text" class="form-control" name="car-days" id="car-days" placeholder="" required>
+                                <small class="text-muted">Days</small>
+                            </div>
+                        </div>
                         <div class="custom-control custom-radio">
                             <input id="car-standard" name="car-class" type="radio" class="custom-control-input" value="Standard" checked required>
                             <label class="custom-control-label" for="car-standard">Standard</label>
