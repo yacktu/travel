@@ -75,6 +75,7 @@ def bookTrip():
     #GROUP
     group_name = request.form['groupName']
     session['group_name'] = group_name
+    passkey = request.form['password']
 
     #PASSENGER
     first_name = request.form['firstName']
@@ -121,27 +122,25 @@ def bookTrip():
     cursor.execute(sql)
     data = cursor.fetchone()
     travel_agent_id = data[0]
-    
-    sql = "INSERT INTO `group`(`group_size`, `travel_agent_id`, `source_location`, `dest_location`) VALUES (%s,%s,%s,%s)"
-    cursor.execute(sql, (0, travel_agent_id, sourceloc_id, destloc_id))
-    cursor.execute(sql_fetchid)
-    data = cursor.fetchone()
-    group_id = data[0]
-    
+
     sql = "INSERT INTO `payment`(`card_expr_date`, `card_num`, `payment_type`) VALUES (%s,%s,%s)"
     cursor.execute(sql, (ccExp, ccNumber, "Credit"))
     cursor.execute(sql_fetchid);
     data = cursor.fetchone()
     payment_id = data[0]
     
+    sql = "INSERT INTO `group`(`group_size`, `passkey`, `payment_id`, `travel_agent_id`, `source_location`, `dest_location`) VALUES (%s,%s,%s,%s)"
+    cursor.execute(sql, (0, passkey, payment_id, travel_agent_id, sourceloc_id, destloc_id))
+    cursor.execute(sql_fetchid)
+    data = cursor.fetchone()
+    group_id = data[0]
+    
     sql = '''INSERT INTO `passenger`(`first_name`,`last_name`,`email`, `age`,
-    `phone_number`, `payment_id`, `group_id`) VALUES (%s,%s,%s,%s,%s,%s,%s)'''
-    cursor.execute(sql, (first_name, last_name, phone_number, age, email, payment_id, group_id))
+    `phone_number`, `group_id`) VALUES (%s,%s,%s,%s,%s,%s)'''
+    cursor.execute(sql, (first_name, last_name, phone_number, age, email, group_id))
     conn.commit()
 
-    session['payment_id'] = payment_id
     session['group_id'] = group_id
-    
     if request.form.get('another-guest'):
         return redirect(url_for('addGuestForm'))
     else:
@@ -164,9 +163,8 @@ def addGuest():
     conn = mysql.get_db()
     cursor = conn.cursor()
     sql = '''INSERT INTO `passenger`(`first_name`,`last_name`,`email`, `age`,
-    `phone_number`, `payment_id`, `group_id`) VALUES (%s,%s,%s,%s,%s,%s,%s)'''
-    cursor.execute(sql, (first_name, last_name, phone_number, age, email,
-    session.get('payment_id', None), session.get('group_id', None)))
+    `phone_number`,`group_id`) VALUES (%s,%s,%s,%s,%s,%s)'''
+    cursor.execute(sql, (first_name, last_name, phone_number, age, email, session.get('group_id', None)))
 
     conn.commit()
     if request.form.get('another-guest'):
