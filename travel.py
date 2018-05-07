@@ -123,7 +123,7 @@ def showTripsPage():
 
     car_rental = None
     if car_rental_id != None:
-        sql = "SELECT FROM `car_rental` WHERE `car_rental_id` = %s"
+        sql = "SELECT * FROM `car_rental` WHERE `car_rental_id` = %s"
         cursor.execute(sql, (car_rental_id))
         data = cursor.fetchall()
         car_data = data[0]
