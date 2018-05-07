@@ -155,6 +155,10 @@ def showReviews():
     session['location'] = request.form['location']
     return render_template('reviews.html', location = request.form['location'])  
 
+@app.route('/addReview')
+def addReview():
+    return redirect(url_for('index'))
+
 @app.route('/showTripForm', methods=['GET','POST'])
 def showTripForm():
     session['location'] = request.form['location']
