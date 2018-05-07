@@ -37,8 +37,11 @@
         <div class="py-5 text-center">
             <img class="d-block mx-auto mb-4" src="https://getbootstrap.com/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
             <i class="fa fa-plane" style="font-size: 64px"></i>
-            <h2>Welcome {% if user_name %} {{user_name}} {% endif %} </h2>
-            <h3>{% if group_name %} {{group_name}} {% endif %}'s Trip to {% if location %} {{location}} {% endif %}</h3>
+            <h2>Welcome</h2>
+            <h3>Your Trip to {% if location.country %} {{location.country}} {% endif %} - 
+                    {% if location.state %} {{location.state}} - {% endif %} 
+                    {% if location.city_name %} {{location.city_name}} {% endif %}
+            </h3>
         </div>
 
         <div>
@@ -57,7 +60,7 @@
             </thead>
             <tbody>
                 <tr>
-                    <th scope="row">jack</th>
+                    <th scope="row">{% if travel.travel_type %} {{travel.travel_type}} {% endif %}</th>
                     <td>jack</td>
                     <td>smith</td>
                     <td>29</td>
